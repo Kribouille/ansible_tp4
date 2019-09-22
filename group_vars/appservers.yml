@@ -1,0 +1,19 @@
+---
+flask_apps:
+  - name: helloworld
+    domain: hello.test
+    repository: https://github.com/e-lie/flask_hello_ansible.git
+    version: master
+    user: flask1
+    entrypoint: app
+
+  - name: hello2
+    domain: hello2.test
+    repository: https://github.com/e-lie/flask_hello_ansible.git
+    version: master
+    user: flask2
+    entrypoint: app
+
+
+
+ 

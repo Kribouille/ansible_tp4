@@ -1,0 +1,10 @@
+flask_apps:
+  - name: helloworld
+    domain: hello.test
+    repository: https://github.com/e-lie/flask_hello_ansible.git
+    version: master
+    user: flask1
+    entrypoint: app
+
+flask_upgrade_apps: false
+flask upgrade_dependencies: false

@@ -1,0 +1,42 @@
+- hosts: localhost
+  connection: local
+  become: yes
+
+  tasks:
+    - name: setup linux container for the infrastructure simulation
+      lxd_container:
+        name: "{{ item }}"
+        state: "{{ hostvars[item]['node_state'] }}"
+        source:
+          type: image
+          alias: "{{ hostvars[item]['container_image'] }}"
+        profiles: ["default"]
+        config:
+          security.nesting: 'true' 
+          security.privileged: 'false' 
+        devices:
+          # configure network interface
+          eth0:
+            type: nic
+            nictype: bridged
+            parent: lxdbr0
+            # get ip address from inventory
+            ipv4.address: "{{ hostvars[item].ansible_host }}"
+
+        # uncomment if you installed lxd using snap
+        url: unix:/var/snap/lxd/common/lxd/unix.socket
+        wait_for_ipv4_addresses: true
+        timeout: 600
+
+      register: containers
+      loop: "{{ groups['all'] }}"
+    
+
+
+    - name: Config /etc/hosts file accordingly
+      lineinfile:
+        path: /etc/hosts
+        regexp: ".*{{ item }}$"
+        line: "{{ hostvars[item].ansible_host }}    {{ item }}"
+        state: "present"
+      loop: "{{ groups['all'] }}"

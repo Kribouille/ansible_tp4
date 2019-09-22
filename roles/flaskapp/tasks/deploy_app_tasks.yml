@@ -1,0 +1,62 @@
+- name: exemple debug task to display app parameters
+  debug:
+    msg: "{{ app }}"
+
+- name: "add the user {{ app.user }}"
+  user:
+    name: "{{ app.user }}"
+    state: present
+    append: yes # important pour ne pas supprimer les groupes d'un utilisateur existant
+    groups:
+      - "www-data"
+
+- name: copy app files
+  git:
+    repo: "{{ app.repository }}"
+    dest: /home/{{ app.user }}/{{ app.name }}
+    version: "{{ app.version }}"
+    clone: yes
+    update: no
+
+- name: install modules in a virtualenv
+  pip:
+    requirements: /home/{{ app.user }}/{{ app.name }}/requirements.txt
+    virtualenv: /home/{{ app.user }}/{{ app.name }}/venv
+    virtualenv_python: python3
+
+- name: change permissions of app directory
+  file:
+    path: /home/{{ app.user }}/{{ app.name }}
+    state: directory
+    owner: "{{ app.user }}"
+    recurse: true
+
+- name: template systemd service config
+  template:
+    src: app.service.j2
+    dest: /etc/systemd/system/{{ app.name }}.service
+
+- name: start systemd app service
+  systemd:
+    name: "{{ app.name }}.service"
+    state: restarted
+    enabled: yes
+
+- name: template nginx site config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/{{ app.domain }}.conf
+  notify: reload nginx
+
+- name: remove default nginx site config
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: enable nginx site
+  file:
+    src: /etc/nginx/sites-available/{{ app.domain }}.conf
+    dest: /etc/nginx/sites-enabled/{{ app.domain }}.conf
+    state: link
+    force: yes
+  notify: reload nginx
