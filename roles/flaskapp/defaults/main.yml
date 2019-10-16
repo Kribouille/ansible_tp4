@@ -6,5 +6,4 @@ flask_apps:
     user: flask1
     entrypoint: app
 
-flask_upgrade_apps: false
-flask upgrade_dependencies: false
+flask_upgrade_apps: no

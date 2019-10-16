@@ -1,7 +1,0 @@
-- hosts: appservers
-  become: yes
-
-
-  roles:
-    - geerlingguy.firewall
-    - flaskapp

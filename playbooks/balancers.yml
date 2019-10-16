@@ -1,0 +1,31 @@
+- hosts: balancers
+  become: true
+
+  # static version of backen definition
+  # vars:
+    # haproxy_backend_servers:
+      # - name: app1
+      #   address: 10.164.210.121:80
+      # - name: app2
+      #   address: 10.164.210.122:80
+
+  pre_tasks:
+
+    # - name: debug task to help build the variable
+    #   debug:
+    #     msg: "{{ [ { 'name': host, 'address': hostvars[host].ansible_host + ':80' } ] }}"
+    #   loop: "{{ groups['appservers'] }}"
+    #   loop_control:
+    #     loop_var: host
+
+    - name: Build haproxy backend list variable dynamically
+      set_fact:
+        haproxy_backend_servers: "{{ haproxy_backend_servers | default([]) + [ { 'name': host, 'address': hostvars[host].ansible_host + ':80' } ] }}"
+      loop: "{{ groups['appservers'] }}"
+      loop_control:
+        loop_var: host
+    
+  roles:
+    - geerlingguy.repo-epel
+    - geerlingguy.firewall
+    - geerlingguy.haproxy

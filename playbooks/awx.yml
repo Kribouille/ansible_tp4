@@ -1,0 +1,11 @@
+- hosts: awxnodes
+  become: true
+
+  vars:
+    docker_install_compose: true
+    awx_run_install_playbook: false
+
+  roles:
+    - geerlingguy.docker
+    - geerlingguy.repo-epel
+    - simple_awx

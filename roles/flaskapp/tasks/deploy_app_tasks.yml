@@ -10,13 +10,26 @@
     groups:
       - "www-data"
 
-- name: copy app files
+- name: git get app files
   git:
     repo: "{{ app.repository }}"
     dest: /home/{{ app.user }}/{{ app.name }}
     version: "{{ app.version }}"
     clone: yes
-    update: no
+    update: "{{ flask_upgrade_apps }}"
+    force: "{{ flask_upgrade_apps }}"
+
+- name: edit app instance name
+  lineinfile:
+    path: /home/{{ app.user }}/{{ app.name }}/app.py
+    line: "app_instance_name = '{{ app.name }}'"
+    regexp: "^app_instance_name = .*"
+
+- name: edit app server name
+  lineinfile:
+    path: /home/{{ app.user }}/{{ app.name }}/app.py
+    line: "app_server_name = '{{ inventory_hostname }}'"
+    regexp: "^app_server_name = .*"
 
 - name: install modules in a virtualenv
   pip:
