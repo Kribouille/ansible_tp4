@@ -54,6 +54,7 @@
     name: "{{ app.name }}.service"
     state: restarted
     enabled: yes
+    daemon_reload: yes
 
 - name: template nginx site config
   template:

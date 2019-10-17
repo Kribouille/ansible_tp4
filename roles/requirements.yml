@@ -1,5 +1,3 @@
-- src: geerlingguy.firewall
 - src: geerlingguy.repo-epel
 - src: geerlingguy.haproxy
-- src: geerlingguy.mysql
 - src: geerlingguy.docker

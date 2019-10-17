@@ -1,0 +1,10 @@
+- hosts: balancers
+  become: yes
+  
+  tasks:
+    - name: "{{ backend_state }} the backend server in HAProxy."
+      haproxy:
+        state: "{{ backend_state }}"
+        host: '{{ backend_name }}'
+        socket: /var/lib/haproxy/stats
+        backend: habackend

@@ -1,4 +1,4 @@
 awx_repo: https://github.com/ansible/awx.git
 awx_repo_dir: "~/awx"
 awx_version: devel
-awx_run_install_playbook: false
+awx_run_install_playbook: no

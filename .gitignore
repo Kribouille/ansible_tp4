@@ -6,3 +6,24 @@ vagrant_ansible_inventory_default
 test.sh
 
 roles/geerlingguy.*
+
+.vagrant
+awx
+*.retry
+ubuntu-bionic-18.04-cloudimg-console.log
+index.html
+db_datadir
+.env
+ansible-digital_ocean.cache
+
+.idea
+**/.terraform
+.terraform.tfstate.lock.info
+.vagrant
+
+*.tfvars
+**/terraform.tfvars
+*.tfstate
+*.tfstate.backup
+
+*.retry

@@ -1,31 +1,20 @@
-- name: install centos/redhat dependencies
-  yum:
-    name:
-      - python36-pip
-      - python36-devel
-      - python36-pyOpenSSL #required for ansible pip installation
-      - git
-      - gcc
-    enablerepo: epel
-    state: present
-  when: ansible_os_family == 'RedHat'
-
-- name: install debian/ubuntu dependencies
+- name: install apt dependencies
   apt:
     name:
       - python3-pip
       - git
       - gcc
     state: present
-  when: ansible_os_family == 'Debian'
 
-- name: Install ansible and docker python module
+- name: Install docker python module
   pip:
     name:
       - docker
+      - docker-compose
       - ansible
     state: present 
     executable: pip3
+
 
 - name: Clone AWX 
   git:
@@ -33,6 +22,7 @@
     dest: "{{ awx_repo_dir }}"
     version: "{{ awx_version }}"
     accept_hostkey: yes
+    update: no
 
 - name: Setup awx config file
   template:
@@ -40,10 +30,11 @@
     dest: "{{ awx_repo_dir }}/installer/inventory"
 
 - name: AWX ansible installation
-  command: "ansible-playbook -i inventory install.yml"
+  shell: "ansible-playbook -i inventory install.yml"
   args:
     chdir: "{{ awx_repo_dir }}/installer"
     creates: /etc/awx_playbook_complete
+  when: awx_run_install_playbook
 
 - name: Create a file to mark whether this playbook has completed.
   file:

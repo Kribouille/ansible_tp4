@@ -1,6 +1,1 @@
----
-firewall_allowed_tcp_ports:
-  - "22"
-  - "80"
-
 haproxy_backend_balance_method: 'leastconn'

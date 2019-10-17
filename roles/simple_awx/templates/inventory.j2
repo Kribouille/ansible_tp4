@@ -1,4 +1,4 @@
-localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env python"
+localhost ansible_connection=local
 
 [all:vars]
 
@@ -107,7 +107,7 @@ rabbitmq_erlang_cookie=cookiemonster
 # This will create or update a default admin (superuser) account in AWX, if not provided
 # then these default values are used
 admin_user=admin
-admin_password=password
+admin_password={{ awx_admin_password }}
 
 # Whether or not to create preload data for demonstration purposes
 create_preload_data=True

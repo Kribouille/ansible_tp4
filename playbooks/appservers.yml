@@ -3,5 +3,4 @@
 
 
   roles:
-    - geerlingguy.firewall
     - flaskapp

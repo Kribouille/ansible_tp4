@@ -27,5 +27,4 @@
     
   roles:
     - geerlingguy.repo-epel
-    - geerlingguy.firewall
     - geerlingguy.haproxy
