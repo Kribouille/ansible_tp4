@@ -1,27 +1,27 @@
-# [all:vars]
-# ansible_user=root
-
-# [balancers]
-# balancer ansible_host=<ip_droplet>
-
-# [appservers]
-# app1 ansible_host=<ip_droplet> 
-# app2 ansible_host=<ip_droplet>
-
-# [awxservers]
-# awx1 ansible_host=<ip_droplet>
-
-
-### Example
 [all:vars]
 ansible_user=root
 
 [balancers]
-balancer0 ansible_host=188.166.7.101 ansible_python_interpreter=/usr/bin/python
+balancer ansible_host=<ip_droplet>
 
 [appservers]
-app0 ansible_host=188.166.8.252
-app1 ansible_host=188.166.8.83
+app1 ansible_host=<ip_droplet> 
+app2 ansible_host=<ip_droplet>
 
 [awxservers]
-awx0 ansible_host=178.62.192.215
+awx1 ansible_host=<ip_droplet>
+
+
+# ### Example
+# [all:vars]
+# ansible_user=root
+# 
+# [balancers]
+# balancer0 ansible_host=188.166.7.101 ansible_python_interpreter=/usr/bin/python
+# 
+# [appservers]
+# app0 ansible_host=188.166.8.252
+# app1 ansible_host=188.166.8.83
+# 
+# [awxservers]
+# awx0 ansible_host=178.62.192.215
