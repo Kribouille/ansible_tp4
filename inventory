@@ -2,14 +2,14 @@
 ansible_user=root
 
 [balancers]
-balancer ansible_host=<ip_droplet>
+balancer0 ansible_host=178.62.199.5
 
 [appservers]
-app1 ansible_host=<ip_droplet> 
-app2 ansible_host=<ip_droplet>
+app0 ansible_host=178.62.222.21 
+app1 ansible_host=178.62.194.12
 
 [awxservers]
-awx1 ansible_host=<ip_droplet>
+awx0 ansible_host=178.62.222.197
 
 
 # ### Example
